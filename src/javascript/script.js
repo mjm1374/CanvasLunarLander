@@ -99,7 +99,7 @@ function draw()
     // Begin drawing
     drawSpaceship();
     updateScore();
-    //drawSpaceshipHash();
+    if(spaceship.position.y < 0) drawSpaceshipHash();
 
     /* other draw methods (to add later) */
 
