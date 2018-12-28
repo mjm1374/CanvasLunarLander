@@ -38,6 +38,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Sel.by @ [moonlander](http://moonlander.seb.ly/)
-* UCL @ [Making a Lunar Lander in JavaScript](http://students.cs.ucl.ac.uk/schoolslab/projects/HT5/)
+* Seb Lee-Delisle @ [moonlander](http://moonlander.seb.ly/)
+* UCL @ [Making a Lunar Lander in JavaScript](http://students.cs.ucl.ac.uk/schoolslab/projects/HT5/) - Watch this one, several bugs published in article (thrust and gravity)
 * Atari, Howard Delman, Rich Moore
