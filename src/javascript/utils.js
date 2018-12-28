@@ -1,3 +1,44 @@
+// ----- Utiliies  ---------------------------------------------------------------------------------------------------------
+
+
+
+$(window).resize(function() {
+	xLimit = resetWindowLimit("x");
+	yLimit = resetWindowLimit("y");
+});
+
+function resetWindowLimit(whatDim) {
+
+	var newDim, newDimx, newDimy;
+	newDimx = window.innerHeight;
+	newDimy = window.innerHeight;
+
+
+	if (whatDim == "x") {
+		newDim = window.innerWidth;
+		for (i = 0; i < asteroids.length; i++) {
+			if (asteroids[i].x >= (newDimx - asteroids[i].width)) {
+				asteroids[i].changePosition((newDimx - asteroids[i].width), (newDimy - asteroids[i].height));
+			}
+		}
+
+	} else {
+		newDim = window.innerHeight;
+		for (i = 0; i < asteroids.length; i++) {
+			if (asteroids[i].y >= (newDimy - asteroids[i].height)) {
+				asteroids[i].changePosition((newDimx - asteroids[i].width), (newDim - asteroids[i].height));
+			}
+
+		}
+	}
+
+	return newDim;
+}
+
+
+function getRandomFloat(min, max) {
+	return Math.random() * (max - min) + min;
+}
 
 
 // ----- Controls  ---------------------------------------------------------------------------------------------------------
@@ -76,6 +117,19 @@ function drawSpaceship()
         context.fill();
     }
     context.restore();
+}
+
+
+function drawSpaceshipHash()
+{
+    context.save();
+    context.beginPath();
+    context.translate(spaceship.position.x, 0);
+    context.rect(spaceship.width, 10, spaceship.width+1, 10);
+    context.fillStyle = "Lime";
+    context.fill();
+    context.closePath();
+
 }
 
 

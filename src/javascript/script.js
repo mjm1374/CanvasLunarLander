@@ -2,7 +2,7 @@ var canvas = document.getElementById("game"),
 context = canvas.getContext("2d"),
 stars = [],
 gravity = 0.025,
-starColor = ['#111','',''],
+starColor = ['#111','#111','#111','#111','#111','#111','#111','#25aafc','#ce2c00'],
 fuel =  5000;
 
 var spaceship =
@@ -99,6 +99,7 @@ function draw()
     // Begin drawing
     drawSpaceship();
     updateScore();
+    //drawSpaceshipHash();
 
     /* other draw methods (to add later) */
 
