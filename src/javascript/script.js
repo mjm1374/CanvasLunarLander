@@ -11,12 +11,11 @@ availableZones = [],
 zoneCombis = [],
 currentCombi = 0,
 zoneInfos = [],
-landscale = 1.5
-view =  new View(0,resetWindowLimit("y"),0,0,0,1);
+landscale = 1.5;
 
 $('#game').attr('width', resetWindowLimit("x"));
 $('#game').attr('height', resetWindowLimit("y"));
-
+var view =  new View(0,resetWindowLimit("y") * 2,0,0,0,landscale);
 
 var spaceship =
 {
@@ -49,7 +48,7 @@ for (var i = 0; i<points.length; i++){
     var p = points[i];
     p.x *= landscale;
     p.y *= landscale;
-    p.y -= 50;
+    p.y += 50;
 
 }
 
@@ -64,25 +63,23 @@ function landscape(){
     var startOffset = offset;
     var i = 0;
 
-		//while(view.left-offset>rightedge) {
-		//	offset+=rightedge;
-		//}
-		//
-		//while(view.left-offset<0) {
-		//	offset-=rightedge;
-		//}
+		while(view.left-offset>rightedge) {
+			offset+=rightedge;
+		}
 
-		//var startOffset = offset;
-		//
-		//var i = 0;
-		//
-		//while(lines[i].p2.x+offset<view.left) {
-		//	i++;
-		//	if(i>lines.length) {
-		//		i=0;
-		//		offset+=rightedge;
-		//	}
-		//}
+		while(view.left-offset<0) {
+			offset-=rightedge;
+		}
+
+
+		while(lines[i].p2.x+offset<view.left) {
+			i++;
+			if(i>lines.length) {
+				i=0;
+				offset+=rightedge;
+			}
+		}
+
         context.save();
         context.beginPath();
 
@@ -98,7 +95,6 @@ function landscape(){
 		var zoneInfoIndex = 0;
 
         while((line = lines[i]).p1.x+offset<view.right) {
-            console.log('landscape');
 
 			var point = line.p2;
 			context.lineTo(point.x+offset, point.y);
@@ -136,6 +132,7 @@ function landscape(){
 		context.lineWidth = 1/view.scale ;
 		context.lineJoin = 'bevel';
 		context.stroke();
+        context.restore();
 
 
 
@@ -150,7 +147,7 @@ function draw()
 {
     // Clear entire screen
     counter++;
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    //context.clearRect(0, 0, canvas.width, canvas.height);
 
     updateSpaceship();
     drawStars();

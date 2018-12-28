@@ -49,7 +49,7 @@ function LandingZone(linenum, multi) {
     this.multiplier = multi;
 }
 
-function View(left,right,x,y,offset,scale){
+function View(left, right, x, y, offset, scale){
     this.left = left;
     this.right =  right;
     this.x = x;
