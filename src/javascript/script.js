@@ -9,13 +9,13 @@ lines = [],
 counter = 0;
 availableZones = [],
 zoneCombis = [],
-currentCombi = 0,
 zoneInfos = [],
-landscale = 1.5,
+currentCombi = 0,
+landscale = 1.5 /* jshint expr: true */,
 xLimit = resetWindowLimit('x'),
-yLimit = resetWindowLimit('y'),
-nothing = null
-; 
+yLimit = resetWindowLimit('y');
+
+
 
 $('#game').attr('width', resetWindowLimit("x"));
 $('#game').attr('height', resetWindowLimit("y"));
