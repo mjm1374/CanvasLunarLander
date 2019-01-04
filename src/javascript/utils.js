@@ -29,53 +29,6 @@ function getRandomFloat(min, max) {
 }
 
 
-// ----- Controls  ---------------------------------------------------------------------------------------------------------
-
-
-function KeyUp(event)
-{
-    //console.log(spaceship);
-    switch(event.keyCode)
-    {
-        case 37:
-            // Left Arrow key
-            spaceship.rotatingLeft = false;
-            break;
-        case 39:
-            // Right Arrow key
-            spaceship.rotatingRight = false;
-            break;
-        case 38:
-            // Up Arrow key
-            spaceship.engineOn = false;
-            break;
-    }
-}
-
-
-function KeyDown(event)
-{
-    //console.log(spaceship);
-    switch(event.keyCode)
-    {
-        case 37:
-            // Left Arrow key
-            spaceship.rotatingLeft = true;
-            break;
-        case 39:
-            // Right Arrow key
-            spaceship.rotatingRight = true;
-            break;
-        case 38:
-            // Up Arrow key
-            spaceship.engineOn = true;
-            break;
-    }
-}
-
-document.addEventListener('keyup', KeyUp);
-document.addEventListener('keydown', KeyDown);
-
 
 // ----- Paint SpaceShip  ---------------------------------------------------------------------------------------------------------
 
@@ -116,9 +69,9 @@ function updateSpaceship()
     }
     spaceship.velocity.y += gravity;
 
-       // if(spaceship.velocity.x  >= maxThrust) spaceship.velocity.x  =  maxThrust;
-        if(spaceship.velocity.y  >= maxThrust) spaceship.velocity.y  =  maxThrust;
-        if(spaceship.velocity.y  <= terminalV) spaceship.velocity.y  = terminalV;
+       // if(spaceship.velocity.x  >= spaceship.maxThrust) spaceship.velocity.x  =  spaceship.maxThrust;
+        if(spaceship.velocity.y  >= spaceship.maxThrust) spaceship.velocity.y  =  spaceship.maxThrust;
+        if(spaceship.velocity.y  <= spaceship.terminalV) spaceship.velocity.y  = spaceship.terminalV;
 
     //console.log(fuel);
 }

@@ -3,7 +3,7 @@ context = canvas.getContext("2d"),
 stars = [],
 gravity = 0.025,
 starColor = ['255,255,255','255,255,255','255,255,255','255,255,255','255,255,255','255,255,255','255,255,255','218, 60, 4','41, 60, 255', '255, 5, 0', '255, 156, 0'],
-fuel =  5000.
+fuel =  5000,
 points = [],
 lines = [],
 counter = 0;
@@ -12,8 +12,9 @@ zoneCombis = [],
 currentCombi = 0,
 zoneInfos = [],
 landscale = 1.5,
-xLimit =  resetWindowLimit("x"),
-yLimit = resetWindowLimit("y");
+xLimit = resetWindowLimit('x'),
+yLimit = resetWindowLimit('y')
+; 
 
 $('#game').attr('width', resetWindowLimit("x"));
 $('#game').attr('height', resetWindowLimit("y"));
@@ -24,9 +25,9 @@ var spaceship =
     color: "#ffffff",
     width: 8,
     height: 42,
-    thrust: .045,
-    maxThrust = 2,
-    terminalV =  -2,
+    thrust: 0.045,
+    maxThrust : 2,
+    terminalV :  -2,
     position:
     {
         x: 100,
@@ -40,7 +41,7 @@ var spaceship =
     engineOn: false,
     rotatingLeft: false,
     rotatingRight: false,
-}
+};
 
 
 setupData();
@@ -72,26 +73,31 @@ for(var i = 1;i < points.length; i++){
 		}
 
 		var combi = zoneCombis[currentCombi];
- console.log("combi"), combi.length;
-		for (var i = 0; i<combi.length; i++)
+			 console.log("combix", combi.length);
+			 
+		for ( i = 0; i < combi.length; i++)
 		{
 
 
             var zonenumber = combi[i];
 			var zone = availableZones[zonenumber];
 			line = lines[zone.lineNum];
+			console.log("zone",zone); 
 
 			// var zoneLabel : TextDisplay = zoneLabels[i];
 			// 		zoneLabel.x = line.p1.x + ((line.p2.x - line.p1.x) / 2);
 			// 		zoneLabel.y = line.p1.y;
 			// 		zoneLabel.text = zone.multiplier + "X";
-			line.multiplier = zone.multiplier;
+			//line.multiplier = zone.multiplier;
+
 
 		}
 
 		currentCombi++;
 		if(currentCombi >= zoneCombis.length) currentCombi = 0;
-	};
+	}
+
+
 
 function landscape(){
     var offset = 0;
@@ -163,8 +169,6 @@ function landscape(){
 
 
         context.strokeStyle = 'white';
-
-
 		context.lineWidth = 1/view.scale ;
 		context.lineJoin = 'bevel';
 		context.stroke();
