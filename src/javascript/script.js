@@ -13,7 +13,8 @@ currentCombi = 0,
 zoneInfos = [],
 landscale = 1.5,
 xLimit = resetWindowLimit('x'),
-yLimit = resetWindowLimit('y')
+yLimit = resetWindowLimit('y'),
+nothing = null
 ; 
 
 $('#game').attr('width', resetWindowLimit("x"));
