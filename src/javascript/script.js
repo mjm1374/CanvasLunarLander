@@ -11,7 +11,9 @@ availableZones = [],
 zoneCombis = [],
 currentCombi = 0,
 zoneInfos = [],
-landscale = 1.5;
+landscale = 1.5,
+xLimit =  resetWindowLimit("x"),
+yLimit = resetWindowLimit("y");
 
 $('#game').attr('width', resetWindowLimit("x"));
 $('#game').attr('height', resetWindowLimit("y"));
@@ -42,13 +44,17 @@ var spaceship =
 
 
 setupData();
+setZones();
 rightedge =  points[points.length - 1].x * landscale ;
+var pyOffset = Math.max.apply(Math,points.map(function(o){return o.y;}));
+pyOffset =    pyOffset/2 - 50;
+console.log("y:", yLimit , pyOffset);
 
 for (var i = 0; i<points.length; i++){
     var p = points[i];
     p.x *= landscale;
     p.y *= landscale;
-    p.y += 50;
+    p.y += pyOffset;
 
 }
 
@@ -57,6 +63,35 @@ for(var i = 1;i < points.length; i++){
     var p2 = points[i];
     lines.push(new LandscapeLine(p1, p2));
 }
+
+ function setZones () {
+ console.log("setZones");
+		for (var i=0; i<lines.length; i++)
+		{
+			lines[i].multiplier = 1;
+		}
+
+		var combi = zoneCombis[currentCombi];
+ console.log("combi"), combi.length;
+		for (var i = 0; i<combi.length; i++)
+		{
+
+
+            var zonenumber = combi[i];
+			var zone = availableZones[zonenumber];
+			line = lines[zone.lineNum];
+
+			// var zoneLabel : TextDisplay = zoneLabels[i];
+			// 		zoneLabel.x = line.p1.x + ((line.p2.x - line.p1.x) / 2);
+			// 		zoneLabel.y = line.p1.y;
+			// 		zoneLabel.text = zone.multiplier + "X";
+			line.multiplier = zone.multiplier;
+
+		}
+
+		currentCombi++;
+		if(currentCombi >= zoneCombis.length) currentCombi = 0;
+	};
 
 function landscape(){
     var offset = 0;
@@ -100,6 +135,7 @@ function landscape(){
 			context.lineTo(point.x+offset, point.y);
 
 			if((counter%20>10) && (line.multiplier!=1)){
+                console.log("landing");
 				var infoBox;
 
 				if(!zoneInfos[zoneInfoIndex]) {
