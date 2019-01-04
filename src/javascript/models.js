@@ -5,7 +5,7 @@ function Vector(x,y) {
     this.x= x || 0;
     this.y = y || 0;
 
-};
+}
 
 
 
@@ -20,19 +20,19 @@ function Sound(src) {
 
     this.play = function(){
       this.sound.play();
-    }
+    };
 
     this.stop = function(){
       this.sound.pause();
-    }
+    };
 
     this.loop = function(){
       this.sound.setAttribute("loop", "loop");
-    }
+    };
 
     this.reset = function(){
       this.sound.currentTime = 0;
-    }
+    };
 }
 
 
