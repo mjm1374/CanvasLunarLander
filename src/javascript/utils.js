@@ -73,10 +73,66 @@ function updateSpaceship()
         if(spaceship.velocity.y  >= spaceship.maxThrust) spaceship.velocity.y  =  spaceship.maxThrust;
         if(spaceship.velocity.y  <= spaceship.terminalV) spaceship.velocity.y  = spaceship.terminalV;
 
+				checkForCollision(spaceship)
     //console.log(fuel);
 }
 
+// LINE/LINE
+function lineLine( x1,  y1,  x2,  y2,  x3,  y3,  x4,  y4) {
 
+  // calculate the direction of the lines
+  var uA = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
+  var uB = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
+
+  // if uA and uB are between 0-1, lines are colliding
+  if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
+
+    // optionally, draw a circle where the lines meet
+    var intersectionX = x1 + (uA * (x2-x1));
+    var intersectionY = y1 + (uA * (y2-y1));
+    fill(255,0,0);
+    noStroke();
+    ellipse(intersectionX, intersectionY, 20, 20);
+
+    return true;
+  }
+  return false;
+}
+
+
+function checkForCollision(lander){
+	//console.log(lander.position.x + "," + lander.position.y);
+	var landerX = lander.position.x;
+	var landerY = lander.position.y;
+	var landerHeight = lander.height / 2;
+	var landerWidth = lander.width / 2;
+	var landerTheta = lander.angle;
+	var x1 = getRotatedPoints((landerX + landerHeight),(landerY - landerWidth),landerX,landerY, landerTheta);
+	var x2 = null;
+	var y1 = null;
+	var y2 = null;
+
+	for (i = 0; i < lines.length; i++ ){
+		//console.log(lines[i].p1.x);
+		debugger;
+	}
+
+}
+ 
+//theta is rotation
+function getRotatedPoints(x,y,cx,cy,theta){
+	var tempX = x - cx;
+	var tempY = y - cy;
+	
+	// now apply rotation
+	var rotatedX = tempX*cos(theta) - tempY*sin(theta);
+	var rotatedY = tempX*sin(theta) + tempY*cos(theta);
+	
+	// translate back
+	x = rotatedX + cx;
+	y = rotatedY + cy;
+	return ({x,y})
+}
 
 function drawSpaceship()
 {

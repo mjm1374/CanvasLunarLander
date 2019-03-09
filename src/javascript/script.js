@@ -190,7 +190,8 @@ function draw()
     counter++;
     //context.clearRect(0, 0, canvas.width, canvas.height);
 
-    updateSpaceship();
+	updateSpaceship();
+	//Lander;
     drawStars();
     // Begin drawing
     drawSpaceship();
