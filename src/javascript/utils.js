@@ -77,7 +77,39 @@ function updateSpaceship()
     //console.log(fuel);
 }
 
-// LINE/LINE
+
+
+
+function checkForCollision(lander){
+	//console.log(lander.position.x + "," + lander.position.y);
+	var landerX = lander.position.x;
+	var landerY = lander.position.y;
+	var landerHeight = lander.height / 2;
+	var landerWidth = lander.width / 2;
+	var landerTheta = lander.angle;
+	//build out the 4 corners of the rotated spaceship
+	var TLpoints = getRotatedPoints((landerX - landerHeight),(landerY - landerWidth),landerX,landerY, landerTheta);
+	var TRpoints = getRotatedPoints((landerX - landerHeight),(landerY + landerWidth),landerX,landerY, landerTheta);
+	var BLpoints = getRotatedPoints((landerX + landerHeight),(landerY - landerWidth),landerX,landerY, landerTheta);
+	var BRpoints = getRotatedPoints((landerX + landerHeight),(landerY + landerWidth),landerX,landerY, landerTheta);
+ 
+	for (i = 0; i < lines.length; i++ ){
+		//console.log(lines[i].p1.x);
+		var thisLineX1 = lines[i].p1.x; 
+		var thisLineY1 = lines[i].p1.y; 
+		var thisLineX2 = lines[i].p2.x; 
+		var thisLineY2 = lines[i].p2.y;
+
+		var test =  lineLine(TLpoints.x, TLpoints.y,BLpoints.x, BLpoints.y, thisLineX1, thisLineY1, thisLineX2, thisLineY2 );
+		if (test == true){
+			console.log("collision");
+		}
+	
+ 
+	}
+}
+ 
+// LINE/LINE x 1 to 2 = spaceship side - 3 to y is landscape
 function lineLine( x1,  y1,  x2,  y2,  x3,  y3,  x4,  y4) {
 
   // calculate the direction of the lines
@@ -90,43 +122,23 @@ function lineLine( x1,  y1,  x2,  y2,  x3,  y3,  x4,  y4) {
     // optionally, draw a circle where the lines meet
     var intersectionX = x1 + (uA * (x2-x1));
     var intersectionY = y1 + (uA * (y2-y1));
-    fill(255,0,0);
-    noStroke();
-    ellipse(intersectionX, intersectionY, 20, 20);
+    // fill(255,0,0);
+    // noStroke();
+    // ellipse(intersectionX, intersectionY, 20, 20);
 
     return true;
   }
   return false;
 }
 
-
-function checkForCollision(lander){
-	//console.log(lander.position.x + "," + lander.position.y);
-	var landerX = lander.position.x;
-	var landerY = lander.position.y;
-	var landerHeight = lander.height / 2;
-	var landerWidth = lander.width / 2;
-	var landerTheta = lander.angle;
-	var x1 = getRotatedPoints((landerX + landerHeight),(landerY - landerWidth),landerX,landerY, landerTheta);
-	var x2 = null;
-	var y1 = null;
-	var y2 = null;
-
-	for (i = 0; i < lines.length; i++ ){
-		//console.log(lines[i].p1.x);
-		debugger;
-	}
-
-}
- 
 //theta is rotation
 function getRotatedPoints(x,y,cx,cy,theta){
 	var tempX = x - cx;
 	var tempY = y - cy;
 	
 	// now apply rotation
-	var rotatedX = tempX*cos(theta) - tempY*sin(theta);
-	var rotatedY = tempX*sin(theta) + tempY*cos(theta);
+	var rotatedX = tempX*Math.cos(theta) - tempY*Math.sin(theta);
+	var rotatedY = tempX*Math.sin(theta) + tempY*Math.cos(theta);
 	
 	// translate back
 	x = rotatedX + cx;
