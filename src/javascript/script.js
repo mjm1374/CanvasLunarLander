@@ -24,8 +24,8 @@ var view =  new View(0,resetWindowLimit("y") * 2,0,0,0,landscale);
 var spaceship =
 {
     color: "#ffffff",
-    width: 8,
-    height: 42,
+    width: 7,
+    height: 50,
     thrust: 0.045,
     maxThrust : 2,
     terminalV :  -2,

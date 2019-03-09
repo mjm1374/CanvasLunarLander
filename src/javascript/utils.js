@@ -99,11 +99,15 @@ function checkForCollision(lander){
 		var thisLineY1 = lines[i].p1.y; 
 		var thisLineX2 = lines[i].p2.x; 
 		var thisLineY2 = lines[i].p2.y;
-
-		var test =  lineLine(TLpoints.x, TLpoints.y,BLpoints.x, BLpoints.y, thisLineX1, thisLineY1, thisLineX2, thisLineY2 );
-		if (test == true){
-			console.log("collision");
+// we can probabally get away with just 2 test
+		var test1 = lineLine(TLpoints.x, TLpoints.y,BLpoints.x, BLpoints.y, thisLineX1, thisLineY1, thisLineX2, thisLineY2 );
+		var test2 = lineLine(TRpoints.x, TRpoints.y,BRpoints.x, BRpoints.y, thisLineX1, thisLineY1, thisLineX2, thisLineY2 );
+		
+		if (test1 ==  true || test2 == true){
+			console.log("collision", lines[i].landable);
+			break;
 		}
+
 	
  
 	}
@@ -239,7 +243,7 @@ function drawStars()
 function updateScore(){
     context.font = "30px hyperspaceregular";
     context.fillStyle = "#40cc00";
-    context.fillText("JS Lunar Lander", 10, 40);
+    context.fillText("JS Falcon 9 Lander", 10, 40);
     context.font = "12px hyperspaceregular";
 
     // White text
