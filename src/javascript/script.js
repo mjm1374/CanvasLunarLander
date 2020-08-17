@@ -1,7 +1,4 @@
-var canvas = document.getElementById('game'),
-	context = canvas.getContext('2d'),
-	stars = [],
-	gravity = 0.025,
+const gravity = 0.025,
 	starColor = [
 		'255,255,255',
 		'255,255,255',
@@ -14,24 +11,48 @@ var canvas = document.getElementById('game'),
 		'41, 60, 255',
 		'255, 5, 0',
 		'255, 156, 0',
-	],
+	];
+
+let canvas = document.getElementById('game'),
+	context = canvas.getContext('2d'),
+	stars = [],
 	fuel = 5000,
 	points = [],
 	lines = [],
-	counter = 0;
-(availableZones = []),
-	(zoneCombis = []),
-	(zoneInfos = []),
-	(currentCombi = 0),
-	(landscale = 1.5) /* jshint expr: true */,
-	(xLimit = resetWindowLimit('x')),
-	(yLimit = resetWindowLimit('y'));
+	line = null,
+	counter = 0,
+	rightedge = null,
+	availableZones = [],
+	zoneCombis = [],
+	zoneInfos = [],
+	currentCombi = 0,
+	landscale = 1.5 /* jshint expr: true */ ,
+	xLimit = resetWindowLimit('x'),
+	yLimit = resetWindowLimit('y');
 
-$('#game').attr('width', resetWindowLimit('x'));
-$('#game').attr('height', resetWindowLimit('y'));
-var view = new View(0, resetWindowLimit('y') * 2, 0, 0, 0, landscale);
+canvas.setAttribute('width', resetWindowLimit('x'));
+canvas.setAttribute('height', resetWindowLimit('y'));
 
-var spaceship = {
+
+// ----- Stars  ---------------------------------------------------------------------------------------------------------
+
+for (var i = 0; i < 500; i++) {
+
+	stars[i] = {
+		x: Math.random() * canvas.width,
+		y: Math.random() * canvas.height,
+		radius: Math.sqrt(Math.random() * 2) / 2,
+		alpha: 1.0,
+		decreasing: true,
+		dRatio: Math.random() * 0.05,
+		color: starColor[Math.floor(getRandomFloat(0, 9))]
+	};
+}
+
+
+let view = new View(0, resetWindowLimit('y') * 2, 0, 0, 0, landscale);
+
+let spaceship = {
 	color: '#ffffff',
 	width: 8,
 	height: 42,
@@ -53,8 +74,10 @@ var spaceship = {
 };
 
 setupData();
-setZones();
+
+
 rightedge = points[points.length - 1].x * landscale;
+
 var pyOffset = Math.max.apply(
 	Math,
 	points.map(function (o) {
@@ -76,6 +99,8 @@ for (var i = 1; i < points.length; i++) {
 	var p2 = points[i];
 	lines.push(new LandscapeLine(p1, p2));
 }
+landscape()
+setZones();
 
 function setZones() {
 	console.log('setZones');
@@ -128,7 +153,7 @@ function landscape() {
 	context.beginPath();
 
 	var line = lines[i];
-	var offsetY = 0;
+	let offsetY = 0;
 	if (Math.random() < 0.3) {
 		offset += 0.2 / view.scale;
 		offsetY = 0.2 / view.scale;
@@ -156,8 +181,8 @@ function landscape() {
 			infoBox.setText(line.multiplier + 'x');
 			infoBox.setX(
 				((line.p2.x - line.p1.x) / 2 + line.p1.x + offset) *
-					view.scale +
-					view.x
+				view.scale +
+				view.x
 			);
 			infoBox.setY((line.p2.y + 2) * view.scale + view.y);
 			zoneInfoIndex++;

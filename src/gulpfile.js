@@ -16,9 +16,11 @@ const input = {
 	sass: 'scss/**/*.scss',
 	javascript: [
 		'javascript/models.js',
+		'javascript/utils.js',
 		'javascript/script.js',
 		'javascript/controls.js',
-		'javascript/utils.js',
+
+
 	],
 	javascriptPage: ['js/page-component/*.js'],
 	vendor: 'vendor/**/*.js',
@@ -37,20 +39,20 @@ const inputOrder = {
 function scripts() {
 	return (
 		gulp
-			.src(input.javascript)
-			//.pipe(order(['models.js','javascript/1_main.js','javascript/2_controls.js','javascript/*.js'], { cwd: './javascript' }))
-			.on('error', onError)
-			.pipe(
-				babel({
-					presets: ['@babel/env'],
-				})
-			)
-			.pipe(plumber())
-			.pipe(concat('script.min.js'))
-			.on('error', onError)
-			.pipe(uglify())
-			.pipe(sourcemaps.write('maps'))
-			.pipe(gulp.dest('js'))
+		.src(input.javascript)
+		//.pipe(order(['models.js','javascript/1_main.js','javascript/2_controls.js','javascript/*.js'], { cwd: './javascript' }))
+		.on('error', onError)
+		.pipe(
+			babel({
+				presets: ['@babel/env'],
+			})
+		)
+		.pipe(plumber())
+		.pipe(concat('script.min.js'))
+		.on('error', onError)
+		.pipe(uglify())
+		.pipe(sourcemaps.write('maps'))
+		.pipe(gulp.dest('js'))
 	);
 }
 
@@ -63,18 +65,18 @@ var sassOptions = {
 function css() {
 	return (
 		gulp
-			.src(input.sass)
-			.pipe(sourcemaps.init())
-			.pipe(sass(sassOptions).on('error', sass.logError))
-			.pipe(autoprefixer())
-			.on('error', onError)
-			.pipe(cssnano())
-			.pipe(sourcemaps.write('maps'))
-			.pipe(gulp.dest('css'))
-			.pipe(sassdoc())
-			// Release the pressure back and trigger flowing mode (drain)
-			// See: http://sassdoc.com/gulp/#drain-event
-			.resume()
+		.src(input.sass)
+		.pipe(sourcemaps.init())
+		.pipe(sass(sassOptions).on('error', sass.logError))
+		.pipe(autoprefixer())
+		.on('error', onError)
+		.pipe(cssnano())
+		.pipe(sourcemaps.write('maps'))
+		.pipe(gulp.dest('css'))
+		.pipe(sassdoc())
+		// Release the pressure back and trigger flowing mode (drain)
+		// See: http://sassdoc.com/gulp/#drain-event
+		.resume()
 	);
 }
 
