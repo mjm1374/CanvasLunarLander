@@ -1,23 +1,2 @@
-@font-face {
-  font-family: "hyperspaceregular";
-  src: url("../fonts/hyperspace-webfont.woff2") format("woff2"), url("../fonts/hyperspace-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-.atari {
-  font-family: "hyperspaceregular";
-}
-
-#game {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0px;
-  top: 0Px;
-}
-
-h1 {
-  color: #cecece;
-}
-
-/*# sourceMappingURL=styles.css.map */
+@font-face{font-family:hyperspaceregular;src:url(../fonts/hyperspace-webfont.woff2) format("woff2"),url(../fonts/hyperspace-webfont.woff) format("woff");font-weight:400;font-style:normal}.atari{font-family:hyperspaceregular}#game{width:100%;height:100%;position:absolute;left:0;top:0}h1{color:#cecece}
+/*# sourceMappingURL=maps/styles.css.map */
