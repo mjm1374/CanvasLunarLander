@@ -1,11 +1,9 @@
 // ----- Controls  ---------------------------------------------------------------------------------------------------------
 
 
-function KeyUp(event)
-{
+function KeyUp(event) {
     //console.log(spaceship);
-    switch(event.keyCode)
-    {
+    switch (event.keyCode) {
         case 37:
             // Left Arrow key
             spaceship.rotatingLeft = false;
@@ -17,16 +15,14 @@ function KeyUp(event)
         case 38:
             // Up Arrow key
             spaceship.engineOn = false;
-            break; 
+            break;
     }
 }
 
 
-function KeyDown(event)
-{
+function KeyDown(event) {
     //console.log(spaceship);
-    switch(event.keyCode)
-    {
+    switch (event.keyCode) {
         case 37:
             // Left Arrow key
             spaceship.rotatingLeft = true;
@@ -44,4 +40,3 @@ function KeyDown(event)
 
 document.addEventListener('keyup', KeyUp);
 document.addEventListener('keydown', KeyDown);
-
