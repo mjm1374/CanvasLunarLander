@@ -1,18 +1,16 @@
 // ----- Utiliies  ---------------------------------------------------------------------------------------------------------
 
 window.addEventListener('resize', () => {
-	xLimit = resetWindowLimit("x");
-	yLimit = resetWindowLimit("y");
-})
+	xLimit = resetWindowLimit('x');
+	yLimit = resetWindowLimit('y');
+});
 
 function resetWindowLimit(whatDim) {
-
 	var newDim, newDimx, newDimy;
 	newDimx = window.innerHeight;
 	newDimy = window.innerHeight;
 
-
-	if (whatDim == "x") {
+	if (whatDim == 'x') {
 		newDim = window.innerWidth;
 	} else {
 		newDim = window.innerHeight;
@@ -21,23 +19,17 @@ function resetWindowLimit(whatDim) {
 	return newDim;
 }
 
-
 function getRandomFloat(min, max) {
 	return Math.random() * (max - min) + min;
 }
 
-
-
 // ----- Paint SpaceShip  ---------------------------------------------------------------------------------------------------------
-
-
-
 
 function updateSpaceship() {
 	spaceship.position.x += spaceship.velocity.x;
 	spaceship.position.y += spaceship.velocity.y;
 
-	if (spaceship.position.y >= (canvas.height + spaceship.height)) {
+	if (spaceship.position.y >= canvas.height + spaceship.height) {
 		spaceship.position.y = 0;
 		// spaceship.velocity.y = 0;
 	}
@@ -58,91 +50,22 @@ function updateSpaceship() {
 		spaceship.velocity.x -= spaceship.thrust * Math.sin(-spaceship.angle);
 		spaceship.velocity.y -= spaceship.thrust * Math.cos(spaceship.angle);
 		fuel--;
-
 	}
 	spaceship.velocity.y += gravity;
 
 	// if(spaceship.velocity.x  >= spaceship.maxThrust) spaceship.velocity.x  =  spaceship.maxThrust;
-	if (spaceship.velocity.y >= spaceship.maxThrust) spaceship.velocity.y = spaceship.maxThrust;
-	if (spaceship.velocity.y <= spaceship.terminalV) spaceship.velocity.y = spaceship.terminalV;
+	if (spaceship.velocity.y >= spaceship.maxThrust)
+		spaceship.velocity.y = spaceship.maxThrust;
+	if (spaceship.velocity.y <= spaceship.terminalV)
+		spaceship.velocity.y = spaceship.terminalV;
 
-	checkForCollision(spaceship);
-}
+	let inContact = checkForCollision(spaceship);
 
-
-function checkForCollision(lander) {
-	//console.log(lander.position.x + "," + lander.position.y);
-	var landerX = lander.position.x;
-	var landerY = lander.position.y;
-	var landerHeight = lander.height / 2;
-	var landerWidth = lander.width / 2;
-	var landerTheta = lander.angle;
-	//build out the 4 corners of the rotated spaceship
-	var TLpoints = getRotatedPoints((landerX - landerHeight), (landerY - landerWidth), landerX, landerY, landerTheta);
-	var TRpoints = getRotatedPoints((landerX - landerHeight), (landerY + landerWidth), landerX, landerY, landerTheta);
-	var BLpoints = getRotatedPoints((landerX + landerHeight), (landerY - landerWidth), landerX, landerY, landerTheta);
-	var BRpoints = getRotatedPoints((landerX + landerHeight), (landerY + landerWidth), landerX, landerY, landerTheta);
-
-	for (i = 0; i < lines.length; i++) {
-		//console.log(lines[i].p1.x);
-		var thisLineX1 = lines[i].p1.x;
-		var thisLineY1 = lines[i].p1.y;
-		var thisLineX2 = lines[i].p2.x;
-		var thisLineY2 = lines[i].p2.y;
-		// we can probabally get away with just 2 test
-		var test1 = lineLine(TLpoints.x, TLpoints.y, BLpoints.x, BLpoints.y, thisLineX1, thisLineY1, thisLineX2, thisLineY2);
-		var test2 = lineLine(TRpoints.x, TRpoints.y, BRpoints.x, BRpoints.y, thisLineX1, thisLineY1, thisLineX2, thisLineY2);
-
-		if (test1 == true || test2 == true) {
-			console.log("collision", lines[i].landable);
-			break;
-		}
-
-
-
+	if (inContact !== undefined) {
+		//console.log(inContact);
+		inContact === true ? checkForLanding() : boom();
 	}
 }
-
-// LINE/LINE x 1 to 2 = spaceship side - 3 to y is landscape
-function lineLine(x1, y1, x2, y2, x3, y3, x4, y4) {
-
-	// calculate the direction of the lines
-	var uA = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-	var uB = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-
-	// if uA and uB are between 0-1, lines are colliding
-	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) {
-
-		// optionally, draw a circle where the lines meet
-		var intersectionX = x1 + (uA * (x2 - x1));
-		var intersectionY = y1 + (uA * (y2 - y1));
-		// fill(255,0,0);
-		// noStroke();
-		// ellipse(intersectionX, intersectionY, 20, 20);
-
-		return true;
-	}
-	return false;
-}
-
-//theta is rotation
-function getRotatedPoints(x, y, cx, cy, theta) {
-	var tempX = x - cx;
-	var tempY = y - cy;
-
-	// now apply rotation
-	var rotatedX = tempX * Math.cos(theta) - tempY * Math.sin(theta);
-	var rotatedY = tempX * Math.sin(theta) + tempY * Math.cos(theta);
-
-	// translate back
-	x = rotatedX + cx;
-	y = rotatedY + cy;
-	return ({
-		x,
-		y
-	})
-}
-
 
 
 function drawSpaceship() {
@@ -150,7 +73,12 @@ function drawSpaceship() {
 	context.beginPath();
 	context.translate(spaceship.position.x, spaceship.position.y);
 	context.rotate(spaceship.angle);
-	context.rect(spaceship.width * -0.5, spaceship.height * -0.5, spaceship.width, spaceship.height);
+	context.rect(
+		spaceship.width * -0.5,
+		spaceship.height * -0.5,
+		spaceship.width,
+		spaceship.height
+	);
 	context.fillStyle = spaceship.color;
 	context.fill();
 	context.closePath();
@@ -163,12 +91,11 @@ function drawSpaceship() {
 		context.lineTo(0, spaceship.height * 0.5 + Math.random() * 10);
 		context.lineTo(spaceship.width * -0.5, spaceship.height * 0.5);
 		context.closePath();
-		context.fillStyle = "orange";
+		context.fillStyle = 'orange';
 		context.fill();
 	}
 	context.restore();
 }
-
 
 function drawSpaceshipHash() {
 	context.save();
@@ -177,21 +104,18 @@ function drawSpaceshipHash() {
 	context.lineTo(spaceship.position.x, 10);
 	context.strokeStyle = '#ff0000';
 	context.stroke();
-
 }
-
-
 
 function drawStars() {
 	context.save();
-	context.fillStyle = "#111";
+	context.fillStyle = '#111';
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	for (var i = 0; i < stars.length; i++) {
 		var star = stars[i];
 		context.beginPath();
 		context.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
 		context.closePath();
-		context.fillStyle = "rgba(" + star.color + "," + star.alpha + ")";
+		context.fillStyle = 'rgba(' + star.color + ',' + star.alpha + ')';
 		if (star.decreasing == true) {
 			star.alpha -= star.dRatio;
 			if (star.alpha < 0.1) {
@@ -208,30 +132,35 @@ function drawStars() {
 	context.restore();
 }
 
-
-
 // ----- Score & Data ---------------------------------------------------------------------------------------------------------
 
 function updateScore() {
-	context.font = "30px hyperspaceregular";
-	context.fillStyle = "#40cc00";
-	context.fillText("JS Lunar Lander", 10, 40);
-	context.font = "12px hyperspaceregular";
+	context.font = '30px hyperspaceregular';
+	context.fillStyle = '#40cc00';
+	context.fillText('JS Lunar Lander', 10, 40);
+	context.font = '12px hyperspaceregular';
 
 	// White text
-	context.fillStyle = "#fff";
-	context.fillText("Alt: " + Math.floor(canvas.height - spaceship.position.y), (canvas.width - 120), 20);
-	context.fillText("Fuel: " + fuel, (canvas.width - 120), 35);
-	context.fillText("Speed H: " + Math.round(spaceship.velocity.x * 100) / 100, (canvas.width - 120), 50);
-	context.fillText("Speed V: " + Math.round(spaceship.velocity.y * 100) / 100, (canvas.width - 120), 65);
-
+	context.fillStyle = '#fff';
+	context.fillText(
+		'Alt: ' + Math.floor(canvas.height - spaceship.position.y),
+		canvas.width - 120,
+		20
+	);
+	context.fillText('Fuel: ' + fuel, canvas.width - 120, 35);
+	context.fillText(
+		'Speed H: ' + Math.round(spaceship.velocity.x * 100) / 100,
+		canvas.width - 120,
+		50
+	);
+	context.fillText(
+		'Speed V: ' + Math.round(spaceship.velocity.y * 100) / 100,
+		canvas.width - 120,
+		65
+	);
 }
 
-
-
 // ----- Landscape
-
-
 
 function setupData() {
 	points.push(new Vector(0.5, 355.55));
@@ -392,11 +321,6 @@ function setupData() {
 	points.push(new Vector(592.05, 359.5));
 	points.push(new Vector(596.85, 355.55));
 
-
-
-
-
-
 	availableZones.push(new LandingZone(0, 4));
 	availableZones.push(new LandingZone(13, 3));
 	availableZones.push(new LandingZone(25, 4));
@@ -409,7 +333,6 @@ function setupData() {
 	availableZones.push(new LandingZone(133, 2));
 	availableZones.push(new LandingZone(148, 3));
 
-
 	zoneCombis.push([2, 3, 7, 9]);
 	zoneCombis.push([7, 8, 9, 10]);
 	zoneCombis.push([2, 3, 7, 9]);
@@ -417,9 +340,4 @@ function setupData() {
 	zoneCombis.push([0, 5, 7, 9]);
 	zoneCombis.push([6, 7, 8, 9]);
 	zoneCombis.push([1, 4, 7, 9]);
-
-
-
-
-
 }

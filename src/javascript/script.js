@@ -21,6 +21,8 @@ let canvas = document.getElementById('game'),
 	lines = [],
 	line = null,
 	counter = 0,
+	score = 0,
+	hasLanded = false,
 	rightedge = null,
 	availableZones = [],
 	zoneCombis = [],
@@ -203,21 +205,24 @@ function landscape() {
 }
 
 function draw() {
-	// Clear entire screen
-	counter++;
-	//context.clearRect(0, 0, canvas.width, canvas.height);
+	if (hasLanded === false) {
+		// Clear entire screen
+		counter++;
+		//context.clearRect(0, 0, canvas.width, canvas.height);
 
-	updateSpaceship();
-	drawStars();
-	// Begin drawing
-	drawSpaceship();
-	updateScore();
-	landscape();
-	if (spaceship.position.y < 0) drawSpaceshipHash();
+		updateSpaceship();
+		drawStars();
+		// Begin drawing
+		drawSpaceship();
+		updateScore();
+		landscape();
+		if (spaceship.position.y < 0) drawSpaceshipHash();
 
-	/* other draw methods (to add later) */
+		/* other draw methods (to add later) */
 
-	requestAnimationFrame(draw);
+		requestAnimationFrame(draw);
+	}
+
 }
 
 draw();

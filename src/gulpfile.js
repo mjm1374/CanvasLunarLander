@@ -16,6 +16,7 @@ const input = {
 	sass: 'scss/**/*.scss',
 	javascript: [
 		'javascript/models.js',
+		'javascript/collision.js',
 		'javascript/utils.js',
 		'javascript/script.js',
 		'javascript/controls.js',
